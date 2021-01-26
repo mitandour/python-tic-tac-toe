@@ -6,14 +6,7 @@ app = Flask(__name__)
 #if the player has two in a row
 def isWinState(board):
 	b = board
-	return (b[0] == b[1] == b[2])
-		or (b[3] == b[4] == b[5])
-		or (b[6] == b[7] == b[8])
-		or (b[0] == b[3] == b[6])
-		or (b[1] == b[4] == b[7])
-		or (b[2] == b[5] == b[8])
-		or (b[0] == b[4] == b[8])
-		or (b[2] == b[4] == b[6])
+	return (b[0] == b[1] == b[2]) or (b[3] == b[4] == b[5]) or (b[6] == b[7] == b[8]) or (b[0] == b[3] == b[6]) or (b[1] == b[4] == b[7]) or (b[2] == b[5] == b[8]) or (b[0] == b[4] == b[8]) or (b[2] == b[4] == b[6])
 
 
 def hasTwoInRow(board, index1, index2, index3):
