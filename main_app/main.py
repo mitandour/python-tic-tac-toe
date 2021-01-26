@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, request 
+from flask import Flask, flash, redirect, url_for, request 
 
 app = Flask(__name__) 
 
@@ -31,6 +31,10 @@ def hasTwoInRow(board, i1, i2, i3, c):
         return i3
     return -1
 
+def fork(board, i1, i2, i3, c):
+    
+    return -1
+    
 def isTieState(board):
 	if(isBoardCorrect(board) and (" " not in board)):
 		return True
@@ -123,7 +127,7 @@ def playGame(board):
         win_state = checkIfWinState(board, 'o')
         for x in win_state:
              if x != -1:
-                 print("I won")
+                 flash("I won")
                  return play(board, x, "o")
         block_state = checkIfWinState(board, 'x')
         for x in block_state:
