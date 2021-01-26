@@ -121,13 +121,13 @@ def playGame(board):
         win_state = checkIfWinState(board, 'o')
         for x in win_state:
              if x != -1:
-                 board[x] = 'o'
+                 board[x] = "o"
                  print("I won")
                  return board
         block_state = checkIfWinState(board, 'x')
         for x in block_state:
               if x != -1:
-                  board[x] = 'o'
+                  board[x] = "o"
                   return board
         
         
