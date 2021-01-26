@@ -144,9 +144,8 @@ def api_id():
         board = request.args['board']
         if(len(board) < 9):
             position = len(board)
-            rest = 9 - position
-            for x in rest:
-                board = board[:x] + " " + board[x+1:]
+            while(len(board) < 9):
+                board = board[:position] + " " + board[position+1:]
         if isBoardCorrect(board):
             board = playGame(board)
             return "board is correct  " +board 
