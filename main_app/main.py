@@ -68,12 +68,12 @@ def IsEdgeOpening(board):
 
 def PlayCenter(board):
 	if(board[4] == " "):
-		board[4] = "o"
+		board.replace(board[4], "o")
 	return board
 
 
 def playOppositeCorner(board, index):
-	board[index] = "o"
+	board.replace(board[index], "o")
 	return board
 
 def getOppositeCorner(board, index):
@@ -91,7 +91,7 @@ def playEmptyCorner(board):
 	indexes = [0, 2, 6, 8]
 	for i in indexes:
 		if(board[i] == " "):
-			board[i] == "o"
+			board.replace(board[i], "o")
 			break
 		else: 
 			i=i+1
@@ -102,7 +102,7 @@ def playEmptySide(board):
 	indexes = [1, 3, 5,7]
 	for i in indexes:
 		if(board[i] == " "):
-			board[i] == "o"
+			board.replace(board[i], "o")
 			break
 		else: 
 			i=i+1
@@ -121,13 +121,13 @@ def playGame(board):
         win_state = checkIfWinState(board, 'o')
         for x in win_state:
              if x != -1:
-                 board[x] = "o"
+                 board.replace(board[x], "o")
                  print("I won")
                  return board
         block_state = checkIfWinState(board, 'x')
         for x in block_state:
               if x != -1:
-                  board[x] = "o"
+                  board.replace(board[x], "o")
                   return board
         
         
