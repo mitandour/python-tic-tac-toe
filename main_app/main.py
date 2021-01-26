@@ -114,9 +114,9 @@ def getOppositeCorner(index):
 	if(index == 2):
 		return int(0)
 	if(index == 6):
-		return int(9)
-	if(index == 9):
-		return int(6)		
+		return int(8)
+	if(index == 8):
+		return int(6)	
 
 
 def playEmptyCorner(board):
@@ -172,7 +172,7 @@ def playGame(board):
         #Play in opposite corner
         for x in corners:
             i = getOppositeCorner(x)
-            if board[x] == "x" and board[i] == " ":
+            if (board[x] == "x") and (board[i] == " "):
                 return play(board,i)
         #Play on empty corner
         for x in corners:
@@ -202,7 +202,7 @@ def api_id():
         if(len(board) < 9):
             position = len(board)
             while(len(board) < 9):
-                board = board[:position] + " " + board[position+1:]
+                board = board[:position] + " "
         if isBoardCorrect(board):
             if canOPlay(board):
                 board = playGame(board)
