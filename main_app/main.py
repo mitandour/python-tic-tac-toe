@@ -1,4 +1,5 @@
-from flask import Flask, flash, redirect, url_for, request 
+from flask import Flask, flash, redirect, url_for, request, Response 
+from flask_api import status
 
 app = Flask(__name__) 
 
@@ -208,9 +209,12 @@ def api_id():
                 board = playGame(board)
                 return board
             else:
-                return "It is not O's turn!"
+                content = {'Please try again': 'It\' not O\'s turn' }
+                return content, status.HTTP_404_NOT_FOUND
         else:
-            return "This board doesn't represent a valid tic-tac-toe board"
+            content = {'Please try again': 'This board doesn\'t represent a valid tic-tac-toe board' }
+            return content, status.HTTP_404_NOT_FOUND
     else:
-        return "Error: No board parameter provided. Please specify a string as the board."
+        content = {'ERROR': 'No board parameter provided. Please specify a string as the board.' }
+        return content, status.HTTP_404_NOT_FOUND
 
