@@ -192,6 +192,8 @@ def success(name):
 def api_id():
     if 'board' in request.args:
         board = request.args['board']
+        if board == "":
+            return playCenter(board)
         if(len(board) < 9):
             position = len(board)
             while(len(board) < 9):
