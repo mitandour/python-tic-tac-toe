@@ -30,9 +30,22 @@ def hasTwoInRow(board, i1, i2, i3, c):
     if text == c+' '+c:
         return i3
     return -1
+def create_fork(board):
+    corners = [0, 2, 6, 8]
+    if board[4] == "x":
+        for x in corners:
+            if board[x] == "o":
+                i = getOppositeCorner(x)
+                return play(board,i,"o")
+    return -1
+                
 
-def fork(board, i1, i2, i3, c):
-    
+def block_fork(board):
+    b = board
+    case1 = b[0]+b[4]+b[6]
+    case2 = b[2]+b[4]+b[6]
+    if case1 == "xox" or case2 == "xox" :
+        return playEmptyCorner(board)
     return -1
     
 def isTieState(board):
@@ -82,7 +95,7 @@ def PlayCenter(board):
 def playOppositeCorner(board, index):
 	return play(board, index, "o")
 
-def getOppositeCorner(board, index):
+def getOppositeCorner(index):
 	if(index == 0):
 		return 2
 	if(index == 2):
@@ -116,6 +129,8 @@ def playEmptySide(board):
 
 
 def playGame(board):
+    corners = [0,2,6,8]
+    edges = [1,3,5,7]
     if isFirstMove(board) :
         if IsCenterOpening(board):
             return playEmptyCorner(board)
@@ -127,12 +142,31 @@ def playGame(board):
         win_state = checkIfWinState(board, 'o')
         for x in win_state:
              if x != -1:
-                 flash("I won")
+                 flash('I won')
                  return play(board, x, "o")
         block_state = checkIfWinState(board, 'x')
         for x in block_state:
               if x != -1:
                   return play(board, x, "o")
+        if create_fork() != -1:
+            return create_fork()
+        if block_fork() != -1:
+            return block_fork()
+        for x in corners:
+            if board[x] == "x" and board[getOppositeCorner(x)] == " ":
+                return play(board, getOppositeCorner(x), "o")
+        for x in corners:
+            if board[x] == " ":
+                return play(board, x, "o")
+        for x in edges:
+            if board[x] == " ":
+                return play(board, x, "o")
+        flash('We tied !')
+        
+    
+            
+                
+        
               
         
         
