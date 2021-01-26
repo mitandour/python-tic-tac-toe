@@ -118,7 +118,7 @@ def api_id():
     # If ID is provided, assign it to a variable.
     # If no ID is provided, display an error in the browser.
     if 'board' in request.args:
-        					board = request.args['board']
+        						board = request.args['board']
     else:
         return "Error: No id field provided. Please specify an id."
     return "FINE"
