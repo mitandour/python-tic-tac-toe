@@ -142,8 +142,7 @@ def playGame(board):
         win_state = checkIfWinState(board, 'o')
         for x in win_state:
              if x != -1:
-                 flash('I won')
-                 return play(board, x, "o")
+                 return play(board, x, "o") + " I won !"
         block_state = checkIfWinState(board, 'x')
         for x in block_state:
               if x != -1:
@@ -161,7 +160,7 @@ def playGame(board):
         for x in edges:
             if board[x] == " ":
                 return play(board, x, "o")
-        flash('We tied !')
+        return ("We tied !")
         
     
             
