@@ -102,14 +102,6 @@ def success(name):
    return 'welcome %s' % name
 
 
-@app.route('/board',methods = ['GET'])
-def play():
-	if request.method == 'GET':
-      board = request.args.get['board']
-      return redirect(url_for('success',name = board))
-   	else:
-      user = "haha"
-      return redirect(url_for('success',name = user))
 
 
 @app.route('/test', methods=['GET'])
@@ -118,8 +110,8 @@ def api_id():
     # If ID is provided, assign it to a variable.
     # If no ID is provided, display an error in the browser.
     if 'board' in request.args:
-        						board = request.args['board']
+        board = request.args['board']
     else:
         return "Error: No id field provided. Please specify an id."
-    return "FINE"
+    return "FINE"+board
 
