@@ -3,14 +3,29 @@ from flask import Flask, redirect, url_for, request
 app = Flask(__name__) 
 
 #if the player has two in a row
-def isWinState(board):
-	b = board
-	return (b[0] == b[1] == b[2]) or (b[3] == b[4] == b[5]) or (b[6] == b[7] == b[8]) or (b[0] == b[3] == b[6]) or (b[1] == b[4] == b[7]) or (b[2] == b[5] == b[8]) or (b[0] == b[4] == b[8]) or (b[2] == b[4] == b[6])
+def checkIfWinState(board, c):
+    case1 = hasTwoInRow(board, 0,1,2,c)
+    case2 = hasTwoInRow(board, 3,4,5,c)
+    case3 = hasTwoInRow(board, 6,7,8,c)
+    case4 = hasTwoInRow(board, 0,3,6,c)
+    case5 = hasTwoInRow(board, 1,4,7,c)
+    case6 = hasTwoInRow(board, 2,5,8,c)
+    case7 = hasTwoInRow(board, 2,4,6,c)
+    case8 = hasTwoInRow(board, 0,4,8,c)
+    all_cases = [case1, case2, case3, case4, case5, case6, case7]
+    return all_cases
+    
 
-
-def hasTwoInRow(board, index1, index2, index3):
-	b = board
-	return 
+def hasTwoInRow(board, i1, i2, i3, c):
+    b = board
+    text = b[i1]+b[i2]+b[i3]
+    if text == c+c+' ':
+        return i3
+    if text == ' '+c+c:
+        return i1
+    if text == c+' '+c:
+        return i3
+    return -1
 
 def isTieState(board):
 	if(isBoardCorrect(board) and (" " not in board)):
@@ -93,25 +108,45 @@ def playEmptySide(board):
 			i=i+1
 	return board
 
-@app.route("/") 
-def home_view(): 
-	return "<h1>Welcome to Geeks for Geeks</h1>"
 
+def playGame(board):
+    if isFirstMove(board) :
+        if IsCenterOpening(board):
+            return playEmptyCorner(board)
+        if IsEdgeOpening(board):
+            return playEmptySide(board)	
+        if IsCornerOpening(board):
+            return PlayCenter(board)
+    else:
+        win_state = checkIfWinState(board, 'o')
+        for x in win_state:
+             if x != -1:
+                 board[x] = 'o'
+                 print("I won")
+                 return board
+        block_state = checkIfWinState(board, 'x')
+        for x in block_state:
+              if x != -1:
+                  board[x] = 'o'
+                  return board
+        
+        
 @app.route('/success/<name>')
 def success(name):
    return 'welcome %s' % name
 
 
 
-
-@app.route('/test', methods=['GET'])
+@app.route('/', methods=['GET'])
 def api_id():
-    # Check if an ID was provided as part of the URL.
-    # If ID is provided, assign it to a variable.
-    # If no ID is provided, display an error in the browser.
     if 'board' in request.args:
         board = request.args['board']
+        if isBoardCorrect(board):
+            board = playGame(board)
+            return "board is correct  " +board 
+        else:
+            return "BOARD IS INCORRECT"
     else:
-        return "Error: No id field provided. Please specify an id."
-    return "FINE"+board
+        return "Error: No board field provided. Please specify a string as the board."
+    return board
 
