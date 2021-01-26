@@ -1,5 +1,4 @@
 from flask import Flask, redirect, url_for, request 
-import game
 
 app = Flask(__name__) 
 
