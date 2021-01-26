@@ -58,8 +58,18 @@ def PlayCenter(board):
 
 
 def playOppositeCorner(board, index):
-	indexes = [0, 2, 6, 8]
+	board[index] = "o"
 	return board
+
+def getOppositeCorner(board, index):
+	if(index == 0):
+		return 2
+	if(index == 2):
+		return 0
+	if(index == 6):
+		return 9
+	if(index == 9):
+		return 6			
 
 
 def playEmptyCorner(board):
@@ -93,10 +103,4 @@ def success(name):
 
 @app.route('/board',methods = ['GET'])
 def play():
-   if request.method == 'GET':
-      board = request.args.get['board']
-      return redirect(url_for('success',name = board))
-   else:
-      user = "haha"
-      return redirect(url_for('success',name = user))
-
+	print(request)
