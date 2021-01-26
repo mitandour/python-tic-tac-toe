@@ -160,11 +160,11 @@ def playGame(board):
               if x != -1:
                   return play(board, x)
         #Fork
-        if create_fork() != -1:
-            return create_fork()
+        if create_fork(board) != -1:
+            return create_fork(board)
         #Blocking an opponent's fork
-        if block_fork() != -1:
-            return block_fork()
+        if block_fork(board) != -1:
+            return block_fork(board)
         #Play in opposite corner
         for x in corners:
             if board[x] == "x" and board[getOppositeCorner(x)] == " ":
