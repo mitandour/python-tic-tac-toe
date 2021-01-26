@@ -2,6 +2,10 @@ from flask import Flask, redirect, url_for, request
 
 app = Flask(__name__) 
 
+def play(board,position, character):
+    return board[:position] + character + board[position+1:]
+
+
 #if the player has two in a row
 def checkIfWinState(board, c):
     case1 = hasTwoInRow(board, 0,1,2,c)
@@ -68,13 +72,11 @@ def IsEdgeOpening(board):
 
 def PlayCenter(board):
 	if(board[4] == " "):
-		board.replace(board[4], "o")
-	return board
+         return play(board, 4, "o")
 
 
 def playOppositeCorner(board, index):
-	board.replace(board[index], "o")
-	return board
+	return play(board, index, "o")
 
 def getOppositeCorner(board, index):
 	if(index == 0):
@@ -91,7 +93,7 @@ def playEmptyCorner(board):
 	indexes = [0, 2, 6, 8]
 	for i in indexes:
 		if(board[i] == " "):
-			board.replace(board[i], "o")
+			board = play(board, i, "o")
 			break
 		else: 
 			i=i+1
@@ -102,7 +104,7 @@ def playEmptySide(board):
 	indexes = [1, 3, 5,7]
 	for i in indexes:
 		if(board[i] == " "):
-			board.replace(board[i], "o")
+			board = play(board, i, "o")
 			break
 		else: 
 			i=i+1
@@ -121,14 +123,12 @@ def playGame(board):
         win_state = checkIfWinState(board, 'o')
         for x in win_state:
              if x != -1:
-                 board.replace(board[x], "o")
                  print("I won")
-                 return board
+                 return play(board, x, "o")
         block_state = checkIfWinState(board, 'x')
         for x in block_state:
               if x != -1:
-                  board.replace(board[x], "o")
-                  return board
+                  return play(board, x, "o")
         
         
 @app.route('/success/<name>')
