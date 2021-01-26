@@ -110,13 +110,13 @@ def playOppositeCorner(board, index):
 
 def getOppositeCorner(index):
 	if(index == 0):
-		return 2
+		return int(2)
 	if(index == 2):
-		return 0
+		return int(0)
 	if(index == 6):
-		return 9
+		return int(9)
 	if(index == 9):
-		return 6			
+		return int(6)		
 
 
 def playEmptyCorner(board):
