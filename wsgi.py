@@ -1,4 +1,4 @@
-from tic-tac-toe.main import app 
+from main_app.main import app 
 
 if __name__ == "__main__": 
 		app.run() 
