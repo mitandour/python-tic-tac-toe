@@ -2,11 +2,12 @@ from flask import Flask, flash, redirect, url_for, request
 
 app = Flask(__name__) 
 
-def play(board,position, character):
-    return board[:position] + character + board[position+1:]
+#Play by marking o at a position in the board
+def play(board,position):
+    return board[:position]+"o"+ board[position+1:]
 
 
-#if the player has two in a row
+#check all cases where there is a possibility to win
 def checkIfWinState(board, c):
     case1 = hasTwoInRow(board, 0,1,2,c)
     case2 = hasTwoInRow(board, 3,4,5,c)
@@ -16,7 +17,7 @@ def checkIfWinState(board, c):
     case6 = hasTwoInRow(board, 2,5,8,c)
     case7 = hasTwoInRow(board, 2,4,6,c)
     case8 = hasTwoInRow(board, 0,4,8,c)
-    all_cases = [case1, case2, case3, case4, case5, case6, case7]
+    all_cases = [case1, case2, case3, case4, case5, case6, case7, case8]
     return all_cases
     
 
@@ -30,13 +31,15 @@ def hasTwoInRow(board, i1, i2, i3, c):
     if text == c+' '+c:
         return i3
     return -1
+
+
 def create_fork(board):
     corners = [0, 2, 6, 8]
     if board[4] == "x":
         for x in corners:
             if board[x] == "o":
                 i = getOppositeCorner(x)
-                return play(board,i,"o")
+                return play(board,i)
     return -1
                 
 
@@ -48,6 +51,7 @@ def block_fork(board):
         return playEmptyCorner(board)
     return -1
     
+
 def isTieState(board):
 	if(isBoardCorrect(board) and (" " not in board)):
 		return True
@@ -55,12 +59,17 @@ def isTieState(board):
 
 
 def isBoardCorrect(board):
-	if(len(board) != 9):
-          return False
-	for x in board:
-		if (x != " " and x != "x" and x != "o"):
-            								return False	
-	return True		
+    for x in board:
+         if (x != " " and x != "x" and x != "o"):
+            								return False
+    return True                                    
+
+def canOPlay(board):    
+    #if o can play the board is valid                                    
+    if board.count("x") == board.count("o") + 1 or  board.count("x") == board.count("o"):
+        return True		
+    else:
+        return False
 
 def isFirstMove(board):
 	b = board.replace(" ", "")
@@ -68,32 +77,32 @@ def isFirstMove(board):
 		return True
 	return False
 
-def IsCornerOpening(board):
+def isCornerOpening(board):
 	index = board.index('x')
 	if(isFirstMove(board) and index % 2 == 0):
 		return True
 	return False	
 
-def IsCenterOpening(board):
+def isCenterOpening(board):
 	if(isFirstMove(board) and board[4] == "x"):
 		return True
 	return False	
 
 
-def IsEdgeOpening(board):
+def isEdgeOpening(board):
 	index = board.index('x')
 	if(isFirstMove(board) and index % 2 != 0):
 		return True
 	return False
 
 
-def PlayCenter(board):
+def playCenter(board):
 	if(board[4] == " "):
-         return play(board, 4, "o")
+         return play(board, 4)
 
 
 def playOppositeCorner(board, index):
-	return play(board, index, "o")
+	return play(board, index)
 
 def getOppositeCorner(index):
 	if(index == 0):
@@ -110,7 +119,7 @@ def playEmptyCorner(board):
 	indexes = [0, 2, 6, 8]
 	for i in indexes:
 		if(board[i] == " "):
-			board = play(board, i, "o")
+			board = play(board, i)
 			break
 		else: 
 			i=i+1
@@ -121,7 +130,7 @@ def playEmptySide(board):
 	indexes = [1, 3, 5,7]
 	for i in indexes:
 		if(board[i] == " "):
-			board = play(board, i, "o")
+			board = play(board, i)
 			break
 		else: 
 			i=i+1
@@ -131,43 +140,47 @@ def playEmptySide(board):
 def playGame(board):
     corners = [0,2,6,8]
     edges = [1,3,5,7]
+    #If first Move, play optimally
     if isFirstMove(board) :
-        if IsCenterOpening(board):
+        if isCenterOpening(board):
             return playEmptyCorner(board)
-        if IsEdgeOpening(board):
+        if isEdgeOpening(board):
             return playEmptySide(board)	
-        if IsCornerOpening(board):
-            return PlayCenter(board)
+        if isCornerOpening(board):
+            return playCenter(board)
     else:
+        #Win
         win_state = checkIfWinState(board, 'o')
         for x in win_state:
              if x != -1:
-                 return play(board, x, "o") + " I won !"
+                 return play(board, x) + " I won !"
+        #Block
         block_state = checkIfWinState(board, 'x')
         for x in block_state:
               if x != -1:
-                  return play(board, x, "o")
+                  return play(board, x)
+        #Fork
         if create_fork() != -1:
             return create_fork()
+        #Blocking an opponent's fork
         if block_fork() != -1:
             return block_fork()
+        #Play in opposite corner
         for x in corners:
             if board[x] == "x" and board[getOppositeCorner(x)] == " ":
-                return play(board, getOppositeCorner(x), "o")
+                return play(board, getOppositeCorner(x))
+        #Play on empty corner
         for x in corners:
             if board[x] == " ":
-                return play(board, x, "o")
+                return play(board, x)
+        #Play on empty side
         for x in edges:
             if board[x] == " ":
-                return play(board, x, "o")
+                return play(board, x)
+        #If we get there, then we tied!!
         return ("We tied !")
         
     
-            
-                
-        
-              
-        
         
 @app.route('/success/<name>')
 def success(name):
@@ -184,11 +197,13 @@ def api_id():
             while(len(board) < 9):
                 board = board[:position] + " " + board[position+1:]
         if isBoardCorrect(board):
-            board = playGame(board)
-            return "board is correct  " +board 
+            if canOPlay(board):
+                board = playGame(board)
+                return board
+            else:
+                return "It is not O's turn!"
         else:
-            return "BOARD IS INCORRECT"
+            return "Board should only have x, o, o spaces"
     else:
-        return "Error: No board field provided. Please specify a string as the board."
-    return board
+        return "Error: No board parameter provided. Please specify a string as the board."
 
