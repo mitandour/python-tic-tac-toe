@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, request 
-import game
+
 
 app = Flask(__name__) 
 
@@ -22,10 +22,9 @@ def isTieState(board):
 def isBoardCorrect(board):
 	if(len(board) != 9):
 		return False
-	for(x in board):
-		if(x != " " and x != "x" and x != "o")
-		return False
-	return True		
+	for x in board:
+		if (x != " " and x != "x" and x != "o"):
+                                        return False	
 
 def isFirstMove(board):
 	b = board.replace(" ", "")
@@ -70,7 +69,7 @@ def playEmptyCorner(board):
 			board[i] == "o"
 			break
 		else: 
-			i = i++
+                    i=i+1
 	return board
 
 
@@ -81,13 +80,12 @@ def playEmptySide(board):
 			board[i] == "o"
 			break
 		else: 
-			i = i++
+			i = i+1
 	return board
 
 @app.route("/") 
 def home_view(): 
-	board = board.lower()
-		return "<h1>Welcome to Geeks for Geeks</h1>"
+ return "Welcome to Geeks for Geeks"
 
 @app.route('/success/<name>')
 def success(name):
