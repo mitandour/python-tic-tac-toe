@@ -62,6 +62,10 @@ def isBoardCorrect(board):
     for x in board:
          if (x != " " and x != "x" and x != "o"):
             								return False
+    m = board.count("x")
+    n = board.count("o")
+    if(m > n+ 1 or n > m+ 1):
+        return False
     return True                                    
 
 def canOPlay(board):    
@@ -206,7 +210,7 @@ def api_id():
             else:
                 return "It is not O's turn!"
         else:
-            return "Board should only have x, o, o spaces"
+            return "This board doesn't represent a valid tic-tac-toe board"
     else:
         return "Error: No board parameter provided. Please specify a string as the board."
 
