@@ -121,6 +121,5 @@ def api_id():
         board = request.args['board']
     else:
         return "Error: No id field provided. Please specify an id."
-
     return "FINE"
 
