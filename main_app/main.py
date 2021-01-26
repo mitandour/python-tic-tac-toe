@@ -39,7 +39,7 @@ def isTieState(board):
 
 def isBoardCorrect(board):
 	if(len(board) != 9):
-		return False
+          return False
 	for x in board:
 		if (x != " " and x != "x" and x != "o"):
             								return False	
@@ -129,6 +129,7 @@ def playGame(board):
         for x in block_state:
               if x != -1:
                   return play(board, x, "o")
+              
         
         
 @app.route('/success/<name>')
@@ -141,6 +142,11 @@ def success(name):
 def api_id():
     if 'board' in request.args:
         board = request.args['board']
+        if(len(board) < 9):
+            position = len(board)
+            rest = 9 - position
+            for x in rest:
+                board = board[:x] + " " + board[x+1:]
         if isBoardCorrect(board):
             board = playGame(board)
             return "board is correct  " +board 
