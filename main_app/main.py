@@ -171,9 +171,9 @@ def playGame(board):
             return block_fork(board)
         #Play in opposite corner
         for x in corners:
-            i = int(getOppositeCorner(x))
+            i = getOppositeCorner(x)
             if board[x] == "x" and board[i] == " ":
-                return play(board, getOppositeCorner(x))
+                return play(board,i)
         #Play on empty corner
         for x in corners:
             if board[x] == " ":
