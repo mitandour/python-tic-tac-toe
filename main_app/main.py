@@ -97,7 +97,7 @@ def isEdgeOpening(board):
 
 
 def playCenter(board):
-	if(board[4] == " "):
+	if board[4] == " ":
          return play(board, 4)
 
 
@@ -193,7 +193,7 @@ def api_id():
     if 'board' in request.args:
         board = request.args['board']
         if board == "":
-            return playCenter(board)
+            return "    o    "
         if(len(board) < 9):
             position = len(board)
             while(len(board) < 9):
