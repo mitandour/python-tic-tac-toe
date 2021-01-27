@@ -30,7 +30,7 @@ def hasTwoInRow(board, i1, i2, i3, c):
     if text == ' '+c+c:
         return i1
     if text == c+' '+c:
-        return i3
+        return i2
     return -1
 
 
@@ -186,11 +186,6 @@ def playGame(board):
         #If we get there, then we tied!!
         return ("We tied !")
         
-    
-        
-@app.route('/success/<name>')
-def success(name):
-   return 'welcome %s' % name
 
 
 
