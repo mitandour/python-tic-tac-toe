@@ -201,8 +201,8 @@ def api_id():
         if board == "":
             return "    o    "
         if len(board) < 9:
-            while(board.length < 9):
-                board = board + " "
+            while(len(board) < 9):
+                board = board + ' '
         if isBoardCorrect(board):
             if canOPlay(board):
                 board = playGame(board)
