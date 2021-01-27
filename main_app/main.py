@@ -200,21 +200,17 @@ def api_id():
         board = request.args['board']
         if board == "":
             return "    o    "
-        if(len(board) < 9):
-            position = len(board)
-            while(len(board) < 9):
-                board = board[:position] + " "
         if isBoardCorrect(board):
             if canOPlay(board):
                 board = playGame(board)
                 return board
             else:
                 content = {'Please try again': 'It\' not O\'s turn' }
-                return content, status.HTTP_404_NOT_FOUND
+                return content, status.HTTP_400_BAD_REQUEST
         else:
             content = {'Please try again': 'This board doesn\'t represent a valid tic-tac-toe board' }
-            return content, status.HTTP_404_NOT_FOUND
+            return content, status.HTTP_400_BAD_REQUEST
     else:
         content = {'ERROR': 'No board parameter provided. Please specify a string as the board.' }
-        return content, status.HTTP_404_NOT_FOUND
+        return content, status.HTTP_400_BAD_REQUEST
 
