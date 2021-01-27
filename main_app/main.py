@@ -194,7 +194,9 @@ def api_id():
     if 'board' in request.args:
         board = request.args['board']
         if board == "":
-            return "____o____"
+            board = "____o____".replace("_"," ")
+            content = {'Board': board }
+            return content, status.HTTP_200_OK
         if len(board) < 9:
             while(len(board) < 9):
                 board = board + ' '
