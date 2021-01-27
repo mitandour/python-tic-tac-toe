@@ -25,11 +25,11 @@ def checkIfWinState(board, c):
 def hasTwoInRow(board, i1, i2, i3, c):
     b = board
     text = b[i1]+b[i2]+b[i3]
-    if text == c+c+' ':
+    if text == c+c+'_':
         return i3
-    if text == ' '+c+c:
+    if text == '_'+c+c:
         return i1
-    if text == c+' '+c:
+    if text == c+'_'+c:
         return i2
     return -1
 
@@ -77,7 +77,7 @@ def canOPlay(board):
         return False
 
 def isFirstMove(board):
-	b = board.replace(" ", "")
+	b = board.replace("_", "")
 	if(len(b) == 1):
 		return True
 	return False
@@ -102,7 +102,7 @@ def isEdgeOpening(board):
 
 
 def playCenter(board):
-	if board[4] == " ":
+	if board[4] == "_":
          return play(board, 4)
 
 
@@ -123,7 +123,7 @@ def getOppositeCorner(index):
 def playEmptyCorner(board):
 	indexes = [0, 2, 6, 8]
 	for i in indexes:
-		if(board[i] == " "):
+		if(board[i] == "_"):
 			board = play(board, i)
 			break
 		else: 
@@ -134,7 +134,7 @@ def playEmptyCorner(board):
 def playEmptySide(board):
 	indexes = [1, 3, 5,7]
 	for i in indexes:
-		if(board[i] == " "):
+		if(board[i] == "_"):
 			board = play(board, i)
 			break
 		else: 
@@ -173,15 +173,15 @@ def playGame(board):
         #Play in opposite corner
         for x in corners:
             i = getOppositeCorner(x)
-            if (board[x] == "x") and (board[i] == " "):
+            if (board[x] == "x") and (board[i] == "_"):
                 return play(board,i)
         #Play on empty corner
         for x in corners:
-            if board[x] == " ":
+            if board[x] == "_":
                 return play(board, x)
         #Play on empty side
         for x in edges:
-            if board[x] == " ":
+            if board[x] == "_":
                 return play(board, x)
         #If we get there, then we tied!!
         return ("We tied !")
@@ -194,12 +194,13 @@ def api_id():
     if 'board' in request.args:
         board = request.args['board']
         if board == "":
-            return "    o    "
+            return "_ _ _ _o_ _ _ _"
         if len(board) < 9:
             while(len(board) < 9):
                 board = board + ' '
         if isBoardCorrect(board):
             if canOPlay(board):
+                board = board.replace(" ", "_")
                 board = playGame(board)
                 return board
             else:
