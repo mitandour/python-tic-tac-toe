@@ -194,7 +194,7 @@ def api_id():
     if 'board' in request.args:
         board = request.args['board']
         if board == "":
-            return "_ _ _ _o_ _ _ _"
+            return "____o____"
         if len(board) < 9:
             while(len(board) < 9):
                 board = board + ' '
@@ -202,7 +202,7 @@ def api_id():
             if canOPlay(board):
                 board = board.replace(" ", "_")
                 board = playGame(board)
-                return board
+                return board.replace("_"," ")
             else:
                 content = {'Please try again': 'It\' not O\'s turn' }
                 return content, status.HTTP_400_BAD_REQUEST
