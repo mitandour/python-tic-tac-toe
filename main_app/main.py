@@ -204,9 +204,9 @@ def api_id():
             if canOPlay(board):
                 board = board.replace(" ", "_")
                 board = playGame(board)
-                
+                board = board.replace("_"," ")
                 content = {'Board': board }
-                return "'" + board.replace("_"," ") + "'" , status.HTTP_200_OK
+                return content , status.HTTP_200_OK
             else:
                 content = {'Please try again': 'It\' not O\'s turn' }
                 return content, status.HTTP_400_BAD_REQUEST
