@@ -205,7 +205,7 @@ def api_id():
                 board = board.replace(" ", "_")
                 board = playGame(board)
                 board = board.replace("_"," ")
-                content = {'Board': board }
+                content = "'"+ board + "'"
                 return content, status.HTTP_200_OK
             else:
                 content = {'Please try again': 'It\' not O\'s turn' }
