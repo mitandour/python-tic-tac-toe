@@ -198,14 +198,14 @@ def api_id():
             content =  "'"+ board + "'"
             return content, status.HTTP_200_OK
         if len(board) < 9:
-            while(len(board) < 10):
+            while(len(board) < 9):
                 board = board + ' '
         if isBoardCorrect(board):
             if canOPlay(board):
                 board = board.replace(" ", "_")
                 board = playGame(board)
                 board = board.replace("_"," ")
-                content = "'"+ board + "'"
+                content =  board
                 return content, status.HTTP_200_OK
             else:
                 content = {'Please try again': 'It\' not O\'s turn' }
