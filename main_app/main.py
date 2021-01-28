@@ -195,10 +195,10 @@ def api_id():
         board = request.args['board']
         if board == "":
             board = "____o____".replace("_"," ")
-            content = {'Board': board }
+            content =  "'"+ board + "'"
             return content, status.HTTP_200_OK
         if len(board) < 9:
-            while(len(board) < 9):
+            while(len(board) < 10):
                 board = board + ' '
         if isBoardCorrect(board):
             if canOPlay(board):
